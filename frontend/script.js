@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/tasks";
+const API_URL = "https://taskflow-backend-x6ht.onrender.com/api/tasks";
 
 const LISTS_KEY = "taskflow_lists";
 const THEME_KEY = "taskflow_theme";
