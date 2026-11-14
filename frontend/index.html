@@ -45,7 +45,16 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="brand">
-                <span class="brand-mark">&#10003;</span>
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" role="img" aria-label="">
+                        <circle cx="10.5" cy="11" r="4.1" />
+                        <circle cx="19.5" cy="7.5" r="4.1" />
+                        <circle cx="29" cy="11" r="4.1" />
+                        <circle cx="34" cy="19" r="3.5" />
+                        <path d="M8 25.5c0-5.1 5.2-9.2 11.7-9.2s12.3 4.1 12.3 9.2c0 4.2-3.4 7-7.5 7-2.1 0-3.4-.9-5.1-.9s-3.1.9-5.2.9C10.9 32.5 8 29.7 8 25.5Z" />
+                        <path d="m15.1 24.6 3.1 3.1 6.9-7" />
+                    </svg>
+                </span>
                 <span>TaskFlow</span>
             </div>
 
@@ -139,12 +148,28 @@
                     <article class="overview-stat"><span class="overview-icon amber">&#9681;</span><div><p>Open tasks</p><strong id="analyticsOpen">0</strong></div></article>
                     <article class="overview-stat"><span class="overview-icon gold">&#9733;</span><div><p>High priority</p><strong id="analyticsHigh">0</strong></div></article>
                 </div>
-                <div class="analytics-grid">
-                    <section class="overview-card"><h3>Tasks by status</h3><div id="statusChart" class="bar-chart"></div></section>
-                    <section class="overview-card"><h3>Tasks by priority</h3><div id="priorityChart" class="bar-chart"></div></section>
-                    <section class="overview-card category-chart-card"><h3>Tasks by category</h3><div id="categoryChart" class="bar-chart"></div></section>
+                <div class="analytics-due-grid">
+                    <section class="overview-card due-card">
+                        <div class="analytics-card-heading"><div><h3>Due today</h3><p class="muted">Tasks that need your attention today</p></div><span class="due-heading-icon today-icon">&#9728;</span></div>
+                        <div id="dueTodayTasks" class="due-task-list"></div>
+                    </section>
+                    <section class="overview-card due-card">
+                        <div class="analytics-card-heading"><div><h3>Due tomorrow</h3><p class="muted">Get a head start on what's next</p></div><span class="due-heading-icon tomorrow-icon">&#9790;</span></div>
+                        <div id="dueTomorrowTasks" class="due-task-list"></div>
+                    </section>
                 </div>
-                <p class="analytics-note muted">Analytics update automatically from the tasks returned by your TaskFlow backend.</p>
+                <div class="analytics-grid analytics-visuals">
+                    <section class="overview-card completion-card">
+                        <h3>Task completion rate</h3><p class="muted chart-subtitle">Completed tasks compared with tasks still open</p>
+                        <div class="completion-chart-wrap"><div id="completionPie" class="completion-pie" role="img" aria-label="Task completion chart"><div class="pie-center"><strong id="pieRate">0%</strong><span>completed</span></div></div>
+                            <div id="completionLegend" class="pie-legend"></div></div>
+                    </section>
+                    <section class="overview-card list-chart-card">
+                        <h3>Tasks across your lists</h3><p class="muted chart-subtitle">Number of tasks in every list</p>
+                        <div id="listTasksChart" class="bar-chart list-tasks-chart"></div>
+                    </section>
+                </div>
+                <p class="analytics-note muted">Analytics are calculated from your TaskFlow tasks and update when task data changes.</p>
             </section>
 
             <section class="page-view pomodoro-page" id="pomodoroPage" hidden>

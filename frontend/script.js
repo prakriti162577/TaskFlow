@@ -776,19 +776,44 @@ function renderOverview() {
             <span class="dashboard-task-date">${escapeHTML(dueKey(task) ? shortDate(dueKey(task)) : "No date")}</span>
         </button>`).join("") : stateHTML({ title: "No tasks yet", text: "Add your first task to see it here.", cat: false });
 
-    const statusCounts = ["Pending", "In Progress", "Completed"].map(name => [name, items.filter(t => t.status === name).length]);
-    const priorityCounts = ["High", "Medium", "Low"].map(name => [name, items.filter(t => t.priority === name).length]);
-    const categories = [...new Set(items.map(t => t.category || "Uncategorised"))]
-        .map(name => [name, items.filter(t => (t.category || "Uncategorised") === name).length])
-        .sort((a, b) => b[1] - a[1]).slice(0, 8);
+    // Tasks due today or tomorrow (completed tasks are intentionally excluded).
+    const today = todayKey();
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    const tomorrow = `${tomorrowDate.getFullYear()}-${pad(tomorrowDate.getMonth() + 1)}-${pad(tomorrowDate.getDate())}`;
+    const dueToday = items.filter(task => task.status !== "Completed" && dueKey(task) === today);
+    const dueTomorrow = items.filter(task => task.status !== "Completed" && dueKey(task) === tomorrow);
 
-    const bars = (entries, max) => entries.map(([name, value]) => `
-        <div class="bar-row"><div class="bar-label"><span>${escapeHTML(name)}</span><strong>${value}</strong></div>
-        <div class="bar-track"><span style="width:${max ? value / max * 100 : 0}%"></span></div></div>`).join("") || '<p class="muted">No data available yet.</p>';
+    const dueTaskMarkup = (tasks, emptyText) => tasks.length ? tasks.map(task => `
+        <button class="due-task-row" type="button" data-analytics-task="${escapeHTML(task._id)}">
+            <span class="due-task-indicator"></span>
+            <span class="due-task-main"><strong>${escapeHTML(task.title)}</strong><small>${escapeHTML(task.category || "Uncategorised")}</small></span>
+            <span class="badge ${priorityClass(task.priority)}">${escapeHTML(task.priority || "Normal")}</span>
+        </button>`).join("") : `<p class="due-empty">${emptyText}</p>`;
+    $("dueTodayTasks").innerHTML = dueTaskMarkup(dueToday, "No tasks due today. You're all caught up!");
+    $("dueTomorrowTasks").innerHTML = dueTaskMarkup(dueTomorrow, "Nothing due tomorrow. Enjoy the breathing room!");
 
-    $("statusChart").innerHTML = bars(statusCounts, Math.max(1, ...statusCounts.map(x => x[1])));
-    $("priorityChart").innerHTML = bars(priorityCounts, Math.max(1, ...priorityCounts.map(x => x[1])));
-    $("categoryChart").innerHTML = bars(categories, Math.max(1, ...categories.map(x => x[1])));
+    // Completion pie chart: completed vs all remaining tasks.
+    const remaining = Math.max(0, total - completed);
+    const completionAngle = total ? completed / total * 100 : 0;
+    $("completionPie").style.background = total
+        ? `conic-gradient(var(--success) 0 ${completionAngle}%, var(--pie-open) ${completionAngle}% 100%)`
+        : "conic-gradient(var(--pie-empty) 0 100%)";
+    $("pieRate").textContent = `${rate}%`;
+    $("completionLegend").innerHTML = `
+        <div class="pie-legend-row"><span><i class="legend-dot completed-dot"></i>Completed</span><strong>${completed}</strong></div>
+        <div class="pie-legend-row"><span><i class="legend-dot open-dot"></i>Open</span><strong>${remaining}</strong></div>
+        <div class="pie-legend-row pie-total"><span>Total tasks</span><strong>${total}</strong></div>`;
+
+    // Include every saved list, including lists that currently contain zero tasks.
+    const listNames = [...new Set([...getLists(), ...items.map(task => (task.category || "Uncategorised").trim())])]
+        .filter(Boolean).sort((a, b) => a.localeCompare(b));
+    const listCounts = listNames.map(name => [name, items.filter(task => sameList(task.category || "Uncategorised", name)).length]);
+    const maxListCount = Math.max(1, ...listCounts.map(([, value]) => value));
+    $("listTasksChart").innerHTML = listCounts.length ? listCounts.map(([name, value]) => `
+        <div class="bar-row list-bar-row"><div class="bar-label"><span>${escapeHTML(name)}</span><strong>${value}</strong></div>
+        <div class="bar-track"><span style="width:${value / maxListCount * 100}%;background:${listColor(name)}"></span></div></div>`).join("") : '<p class="muted">Create a list and add tasks to see your list analysis.</p>';
+
 }
 
 function renderPages() {
@@ -1385,6 +1410,13 @@ $("pomodoroLaunch").addEventListener("click", () => setDockOpen(true));
 $("dashboardRecent").addEventListener("click", event => {
     const row = event.target.closest("[data-dashboard-task]");
     if (row) openDetails(row.dataset.dashboardTask);
+});
+
+["dueTodayTasks", "dueTomorrowTasks"].forEach(id => {
+    $(id).addEventListener("click", event => {
+        const row = event.target.closest("[data-analytics-task]");
+        if (row) openDetails(row.dataset.analyticsTask);
+    });
 });
 
 $("addTaskBtn").addEventListener("click", () => openAddModal());
