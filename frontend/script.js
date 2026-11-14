@@ -1,5 +1,4 @@
 const API_URL = "https://taskflow-backend-x6ht.onrender.com/api/tasks";
-
 const LISTS_KEY = "taskflow_lists";
 const THEME_KEY = "taskflow_theme";
 const VIEW_KEY = "taskflow_view";
@@ -20,6 +19,8 @@ const pendingDeletes = new Map();
 let lastDeleteId = null;
 let toastTimer = null;
 let celebrateTimer = null;
+let searchTimer = null;
+let latestLoadId = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -65,7 +66,7 @@ function setView(next) {
     view = next;
     safeSet(VIEW_KEY, JSON.stringify(view));
     closeDrawer();
-    render();
+    loadTasks();
 }
 
 const sameList = (a, b) =>
@@ -353,30 +354,54 @@ function celebrate(task) {
 /* ---------------- Data ---------------- */
 
 async function loadTasks(showSkeleton = true) {
+    const loadId = ++latestLoadId;
+
     if (showSkeleton) {
         loading = true;
         render();
     }
 
+    const params = new URLSearchParams();
+    const search = $("searchInput").value.trim();
+    const status = $("statusFilter").value;
+    const priority = $("priorityFilter").value;
+    const [sortBy, order] = $("sortFilter").value.split("-");
+
+    // Send search, filters and sorting to the Express/MongoDB API.
+    if (search) params.set("search", search);
+    if (status && view.type !== "completed") params.set("status", status);
+    if (priority) params.set("priority", priority);
+    if (view.type === "completed") params.set("status", "Completed");
+    if (view.type === "list") params.set("category", view.name);
+    if (sortBy) params.set("sortBy", sortBy);
+    if (order) params.set("order", order);
+
+    const query = params.toString();
+
     try {
-        const result = await request(API_URL);
+        const result = await request(query ? `${API_URL}?${query}` : API_URL);
+        if (loadId !== latestLoadId) return;
+
         allTasks = result.data || [];
         loadError = false;
 
-        // Remember any list names that came from existing tasks
-        storedLists = getLists();
+        // Remember any list names that came from existing tasks.
+        storedLists = [...new Set([...storedLists, ...getLists()])];
         saveLists();
 
-        if (view.type === "list" && !getLists().some(l => sameList(l, view.name))) {
+        if (view.type === "list" && !storedLists.some(l => sameList(l, view.name))) {
             view = { type: "all" };
         }
     } catch (error) {
+        if (loadId !== latestLoadId) return;
         console.error("Fetch error:", error);
         loadError = true;
     }
 
+    if (loadId !== latestLoadId) return;
     loading = false;
     render();
+    populateFocusTasks();
 }
 
 async function setStatus(id, status) {
@@ -408,6 +433,9 @@ function toggleDone(id) {
 function deleteTask(id) {
     const task = allTasks.find(t => t._id === id);
     if (!task) return;
+
+    const confirmed = window.confirm(`Are you sure you want to delete "${task.title}"?`);
+    if (!confirmed) return;
 
     allTasks = allTasks.filter(t => t._id !== id);
     render();
@@ -586,6 +614,10 @@ function taskHTML(task) {
             </div>
 
             <div class="task-actions">
+                ${done ? "" : `
+                <button class="icon-btn" type="button" data-action="focus" title="Start focus timer for this task" aria-label="Start focus timer">
+                    <svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>
+                </button>`}
                 <button class="icon-btn" type="button" data-action="view" title="View details" aria-label="View task details">
                     <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
@@ -627,12 +659,21 @@ function renderTasks() {
     }
 
     const scope = scopeTasks();
+    const hasActiveFilters = Boolean(
+        $("searchInput").value.trim() || $("statusFilter").value || $("priorityFilter").value
+    );
 
     if (scope.length === 0) {
         toolbar.hidden = true;
         count.textContent = "";
 
-        if (view.type === "list") {
+        if (hasActiveFilters) {
+            container.innerHTML = stateHTML({
+                title: "No tasks match",
+                text: "Try a different search or reset the filters.",
+                button: `<button class="secondary-btn" type="button" data-action="reset">Reset filters</button>`
+            });
+        } else if (view.type === "list") {
             container.innerHTML = stateHTML({
                 title: `No tasks in ${view.name} yet`,
                 text: "Add one above and this cat will be very proud of you.",
@@ -840,6 +881,7 @@ async function openDetails(id) {
 
     viewingTaskId = id;
     renderDetails(local);
+    loadTaskFocusSummary(id);
     detailsModal.style.display = "flex";
     $("detailsEdit").focus();
 
@@ -852,6 +894,7 @@ async function openDetails(id) {
         if (fresh && typeof fresh === "object" && fresh.title
             && viewingTaskId === id && detailsModal.style.display === "flex") {
             renderDetails({ ...local, ...fresh });
+            loadTaskFocusSummary(id);
         }
     } catch (error) {
         console.error("Details fetch error:", error);
@@ -877,6 +920,257 @@ $("detailsDelete").addEventListener("click", () => {
     closeDetails();
     if (id) deleteTask(id);
 });
+
+/* ---------------- Cat Pomodoro timer ---------------- */
+
+const FOCUS_API_URL = API_URL.replace(/\/tasks\/?$/, "/focus-sessions");
+const FOCUS_DEFAULTS = { focus: 25, shortBreak: 5, longBreak: 15 };
+let focusSession = null;
+let focusMode = "focus";
+let focusTick = null;
+let pipWindow = null;
+
+function focusDurationSeconds(mode = focusMode) {
+    const inputId = { focus: "focusMinutes", shortBreak: "shortBreakMinutes", longBreak: "longBreakMinutes" }[mode];
+    const value = Number($(inputId).value);
+    return Math.round(Math.min(1440, Math.max(1, value || FOCUS_DEFAULTS[mode])) * 60);
+}
+
+function focusElapsed(session = focusSession) {
+    if (!session) return 0;
+    let elapsed = Number(session.elapsedSeconds || 0);
+    if (session.status === "running" && session.lastResumedAt) {
+        elapsed += Math.max(0, Math.floor((Date.now() - new Date(session.lastResumedAt).getTime()) / 1000));
+    }
+    return elapsed;
+}
+
+function focusRemainingSeconds() {
+    if (focusSession) return Math.max(0, Number(focusSession.targetSeconds) - focusElapsed());
+    return focusDurationSeconds();
+}
+
+function clockText(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainder = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+}
+
+function renderFocusTimer() {
+    const remaining = focusRemainingSeconds();
+    $("focusClock").textContent = clockText(remaining);
+    const running = focusSession?.status === "running";
+    const paused = focusSession?.status === "paused";
+    const modeNames = { focus: "Focus time", shortBreak: "Short break", longBreak: "Long break" };
+    $("focusStatus").textContent = running ? `${modeNames[focusMode]} · in progress` : paused ? "Paused — take your time" : "Ready to begin";
+    $("focusTaskLabel").textContent = focusSession?.taskTitle || "Choose a task and settle in.";
+    $("focusCatCaption").textContent = running ? (focusMode === "focus" ? "You’ve got this!" : "Enjoy your break.") : paused ? "Tiny pause." : "Ready!";
+    $("focusCat").classList.toggle("is-running", Boolean(running));
+    $("focusCat").classList.toggle("is-resting", Boolean(paused || focusMode !== "focus"));
+
+    $("focusStart").hidden = Boolean(focusSession);
+    $("focusPause").hidden = !running;
+    $("focusResume").hidden = !paused;
+    $("focusFinish").hidden = !focusSession;
+    $("focusTaskSelect").disabled = Boolean(focusSession);
+    $("focusSettings").hidden = Boolean(focusSession);
+    document.querySelectorAll(".focus-mode").forEach(button => {
+        button.classList.toggle("active", button.dataset.mode === focusMode);
+        button.disabled = Boolean(focusSession);
+    });
+
+    // Dock pill
+    $("dockClock").textContent = clockText(remaining);
+    $("dockLabel").textContent = running ? (focusSession.taskTitle || modeNames[focusMode]) : paused ? "Paused" : "Focus timer";
+    $("focusDock").dataset.state = running ? "running" : paused ? "paused" : "idle";
+    $("dockCat").classList.toggle("is-running", Boolean(running));
+
+    updatePipContents();
+}
+
+function startFocusTicker() {
+    clearInterval(focusTick);
+    focusTick = setInterval(async () => {
+        renderFocusTimer();
+        if (focusSession?.status === "running" && focusRemainingSeconds() <= 0) {
+            clearInterval(focusTick);
+            await finishFocusSession(true, true);
+        }
+    }, 250);
+}
+
+async function loadActiveFocusSession() {
+    try {
+        const result = await request(`${FOCUS_API_URL}/active`);
+        focusSession = result.data || null;
+        if (focusSession) {
+            focusMode = focusSession.sessionType || "focus";
+            $("focusTaskSelect").value = focusSession.task;
+            startFocusTicker();
+        }
+        renderFocusTimer();
+    } catch (error) {
+        console.error("Active focus session error:", error);
+        $("focusNote").textContent = `Timer connection error: ${error.message}`;
+    }
+}
+
+async function startFocusSession() {
+    const taskId = $("focusTaskSelect").value;
+    if (!taskId) return showToast("Choose a task before starting the timer.");
+    const button = $("focusStart");
+    button.disabled = true;
+    try {
+        const result = await request(FOCUS_API_URL, "POST", {
+            taskId,
+            targetSeconds: focusDurationSeconds(),
+            sessionType: focusMode
+        });
+        focusSession = result.data;
+        startFocusTicker();
+        renderFocusTimer();
+        showToast("Focus session started. You’ve got this!");
+    } catch (error) {
+        showToast(error.message || "Couldn't start the timer.");
+        await loadActiveFocusSession();
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function pauseFocusSession() {
+    if (!focusSession) return;
+    try {
+        const result = await request(`${FOCUS_API_URL}/${focusSession._id}/pause`, "PATCH", {});
+        focusSession = result.data;
+        clearInterval(focusTick);
+        renderFocusTimer();
+    } catch (error) { showToast(error.message); }
+}
+
+async function resumeFocusSession() {
+    if (!focusSession) return;
+    try {
+        const result = await request(`${FOCUS_API_URL}/${focusSession._id}/resume`, "PATCH", {});
+        focusSession = result.data;
+        startFocusTicker();
+        renderFocusTimer();
+    } catch (error) { showToast(error.message); }
+}
+
+async function finishFocusSession(completed = true, automatic = false) {
+    if (!focusSession) return;
+    try {
+        const result = await request(`${FOCUS_API_URL}/${focusSession._id}/finish`, "PATCH", { completed });
+        const finishedTaskId = focusSession.task;
+        focusSession = null;
+        clearInterval(focusTick);
+        renderFocusTimer();
+        showToast(automatic ? "Session complete! Your cat is proud of you." : (completed ? "Session saved as completed." : "Session stopped."));
+        if (viewingTaskId && viewingTaskId === finishedTaskId) loadTaskFocusSummary(viewingTaskId);
+        if (result.taskFocusSummary) console.info("Task focus summary:", result.taskFocusSummary);
+    } catch (error) { showToast(error.message || "Couldn't finish the session."); }
+}
+
+function populateFocusTasks() {
+    const select = $("focusTaskSelect");
+    const selected = focusSession ? focusSession.task : select.value;
+    const openTasks = allTasks.filter(task => task.status !== "Completed");
+    select.innerHTML = `<option value="">Select a task</option>` + openTasks
+        .map(task => `<option value="${escapeHTML(task._id)}">${escapeHTML(task.title)}</option>`).join("");
+    if (openTasks.some(task => task._id === selected)) select.value = selected;
+    renderFocusTimer();
+}
+
+async function loadTaskFocusSummary(taskObjectId) {
+    const target = $("detailsBody");
+    try {
+        const result = await request(`${FOCUS_API_URL}/task/${encodeURIComponent(taskObjectId)}`);
+        if (viewingTaskId !== taskObjectId || !result.success) return;
+        const total = Number(result.totalFocusSeconds || 0);
+        const hours = Math.floor(total / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+        const seconds = total % 60;
+        const pretty = hours ? `${hours}h ${minutes}m` : minutes ? `${minutes}m ${seconds}s` : `${seconds}s`;
+        const history = (result.data || []).filter(item => item.sessionType === "focus").slice(0, 5);
+        const historyHTML = history.length ? `<ul class="focus-history">${history.map(item => `<li><span>${escapeHTML(new Date(item.createdAt).toLocaleDateString("en-IN", {day:"numeric",month:"short"}))}</span><strong>${clockText(item.elapsedSeconds || 0)}</strong><em>${escapeHTML(item.status)}</em></li>`).join("")}</ul>` : `<span class="muted">No focus sessions yet.</span>`;
+        if (!target.querySelector(".focus-detail-row")) target.insertAdjacentHTML("beforeend", `<div class="detail-row focus-detail-row"><span class="detail-label">Focus time</span><div class="detail-value"><div><strong>${pretty}</strong><div class="muted">${result.completedFocusSessions || 0} recorded focus sessions</div>${historyHTML}</div></div></div>`);
+        else target.querySelector(".focus-detail-row .detail-value").innerHTML = `<div><strong>${pretty}</strong><div class="muted">${result.completedFocusSessions || 0} recorded focus sessions</div>${historyHTML}</div>`;
+    } catch (error) {
+        console.error("Task focus summary error:", error);
+    }
+}
+
+async function openFocusPictureInPicture() {
+    if (!("documentPictureInPicture" in window)) {
+        return showToast("Floating Picture-in-Picture is supported in desktop Chrome or Edge. The in-page timer will keep running.");
+    }
+    try {
+        pipWindow = await window.documentPictureInPicture.requestWindow({ width: 300, height: 330 });
+        const doc = pipWindow.document;
+        doc.body.innerHTML = `<main class="pip-card"><div class="pip-cat">🐈</div><p id="pipMode">CAT POMODORO</p><strong id="pipClock">25:00</strong><small id="pipTask">Choose a task</small><div class="pip-actions"><button id="pipPause">Pause</button><button id="pipResume">Resume</button><button id="pipFinish">Finish</button></div></main>`;
+        const style = doc.createElement("style");
+        style.textContent = `*{box-sizing:border-box}body{margin:0;padding:16px;background:#e9f2df;color:#294333;font:14px Arial,sans-serif}.pip-card{text-align:center;padding:18px 12px;border-radius:20px;background:#ffffffd9;box-shadow:0 8px 28px #29433322}.pip-cat{font-size:56px;animation:bob 1s steps(2) infinite}@keyframes bob{50%{transform:translateY(-5px)}}#pipMode{font-weight:bold;letter-spacing:2px;color:#52815d}#pipClock{display:block;font-size:48px;margin:8px 0}#pipTask{display:block;min-height:34px;overflow-wrap:anywhere}.pip-actions{display:flex;gap:6px;margin-top:16px}.pip-actions button{flex:1;border:0;border-radius:10px;padding:10px 4px;background:#477b55;color:white;font-weight:bold}.pip-actions button:disabled{opacity:.4}`;
+        doc.head.appendChild(style);
+        doc.getElementById("pipPause").addEventListener("click", pauseFocusSession);
+        doc.getElementById("pipResume").addEventListener("click", resumeFocusSession);
+        doc.getElementById("pipFinish").addEventListener("click", () => finishFocusSession(true));
+        pipWindow.addEventListener("pagehide", () => { pipWindow = null; });
+        updatePipContents();
+    } catch (error) {
+        showToast("Couldn't open the floating timer. Try again in Chrome or Edge.");
+        console.error("Picture-in-Picture error:", error);
+    }
+}
+
+function updatePipContents() {
+    if (!pipWindow || pipWindow.closed) return;
+    const doc = pipWindow.document;
+    const clock = doc.getElementById("pipClock");
+    if (!clock) return;
+    clock.textContent = clockText(focusRemainingSeconds());
+    doc.getElementById("pipMode").textContent = `${focusMode.replace("Break", " break").toUpperCase()} · ${focusSession?.status || "READY"}`;
+    doc.getElementById("pipTask").textContent = focusSession?.taskTitle || $("focusTaskSelect").selectedOptions[0]?.textContent || "Choose a task";
+    doc.getElementById("pipPause").disabled = focusSession?.status !== "running";
+    doc.getElementById("pipResume").disabled = focusSession?.status !== "paused";
+    doc.getElementById("pipFinish").disabled = !focusSession;
+}
+
+/* ---- Focus dock (floating timer) ---- */
+
+function setDockOpen(open) {
+    $("focusPanel").hidden = !open;
+    $("focusDock").classList.toggle("open", open);
+    $("dockToggle").setAttribute("aria-expanded", String(open));
+}
+
+function startFocusFromTask(id) {
+    if (focusSession) {
+        setDockOpen(true);
+        return showToast("A timer is already running. Finish it first.");
+    }
+    focusMode = "focus";
+    populateFocusTasks();
+    $("focusTaskSelect").value = id;
+    renderFocusTimer();
+    setDockOpen(true);
+}
+
+$("dockToggle").addEventListener("click", () => setDockOpen($("focusPanel").hidden));
+$("dockClose").addEventListener("click", () => setDockOpen(false));
+
+$("focusTaskSelect").addEventListener("change", renderFocusTimer);
+$("focusStart").addEventListener("click", startFocusSession);
+$("focusPause").addEventListener("click", pauseFocusSession);
+$("focusResume").addEventListener("click", resumeFocusSession);
+$("focusFinish").addEventListener("click", () => finishFocusSession(true));
+$("pipButton").addEventListener("click", openFocusPictureInPicture);
+document.querySelectorAll(".focus-mode").forEach(button => button.addEventListener("click", () => {
+    if (focusSession) return;
+    focusMode = button.dataset.mode;
+    renderFocusTimer();
+}));
+["focusMinutes", "shortBreakMinutes", "longBreakMinutes"].forEach(id => $(id).addEventListener("change", renderFocusTimer));
 
 /* ---------------- Quick add ---------------- */
 
@@ -938,6 +1232,7 @@ $("taskContainer").addEventListener("click", event => {
     else if (action === "view") openDetails(id);
     else if (action === "edit") editTask(id);
     else if (action === "delete") deleteTask(id);
+    else if (action === "focus") startFocusFromTask(id);
     else if (action === "retry") loadTasks();
     else if (action === "focus-add") $("quickAdd").focus();
     else if (action === "reset") clearFilters();
@@ -984,11 +1279,16 @@ function clearFilters() {
     $("statusFilter").value = "";
     $("priorityFilter").value = "";
     $("sortFilter").value = "dueDate-asc";
-    renderTasks();
+    loadTasks(false);
 }
 
-["searchInput"].forEach(id => $(id).addEventListener("input", renderTasks));
-["statusFilter", "priorityFilter", "sortFilter"].forEach(id => $(id).addEventListener("change", renderTasks));
+$("searchInput").addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => loadTasks(false), 350);
+});
+["statusFilter", "priorityFilter", "sortFilter"].forEach(id =>
+    $(id).addEventListener("change", () => loadTasks(false))
+);
 $("clearFiltersBtn").addEventListener("click", clearFilters);
 
 $("addTaskBtn").addEventListener("click", () => openAddModal());
@@ -1012,6 +1312,7 @@ document.addEventListener("keydown", event => {
         if (detailsOpen) closeDetails();
         else if (modalOpen) closeModal();
         else if (!$("listForm").hidden) $("listForm").hidden = true;
+        else if (!$("focusPanel").hidden) setDockOpen(false);
         else closeDrawer();
         return;
     }
@@ -1024,6 +1325,9 @@ document.addEventListener("keydown", event => {
     } else if (event.key === "/") {
         event.preventDefault();
         $("searchInput").focus();
+    } else if (event.key.toLowerCase() === "f") {
+        event.preventDefault();
+        setDockOpen($("focusPanel").hidden);
     } else if (event.key.toLowerCase() === "z" && lastDeleteId && pendingDeletes.has(lastDeleteId)) {
         undoDelete(lastDeleteId);
     }
@@ -1034,3 +1338,4 @@ document.addEventListener("keydown", event => {
 applyTheme(document.documentElement.getAttribute("data-theme") || "light");
 render();
 loadTasks();
+loadActiveFocusSession();

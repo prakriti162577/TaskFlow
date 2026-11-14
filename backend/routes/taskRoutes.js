@@ -71,7 +71,10 @@ router.get("/", async (req, res) => {
             conditions.push({
                 $or: [
                     { title: searchRegex },
-                    { description: searchRegex }
+                    { description: searchRegex },
+                    { category: searchRegex },
+                    { taskId: searchRegex },
+                    { tags: searchRegex }
                 ]
             });
         }

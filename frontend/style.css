@@ -1,12 +1,12 @@
-/* TensorFlow UI: cozy pixel-nature theme with liquid glass */
+/* TaskFlow UI: cozy pixel-nature theme with liquid glass */
 :root{
   --cat-sheet:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 16' shape-rendering='crispEdges'%3E%3Crect x='3' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='11' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='4' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='5' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='10' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='11' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='12' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='4' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='6' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='10' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='12' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='4' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='14' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='5' y='5' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='6' y='5' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='10' y='5' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='11' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='13' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='5' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='6' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='10' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='11' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='13' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='7' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='7' y='7' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='9' y='7' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='12' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='4' y='8' width='8' height='1' fill='%23e9a55c'/%3E%3Crect x='12' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='9' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='6' y='9' width='3' height='1' fill='%23fbe8c8'/%3E%3Crect x='9' y='9' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='13' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='10' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='6' y='10' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='10' y='10' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='14' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='11' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='6' y='11' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='10' y='11' width='5' height='1' fill='%23e9a55c'/%3E%3Crect x='15' y='11' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='2' y='12' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='5' y='12' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='11' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='13' y='12' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='14' y='12' width='2' height='1' fill='%23c27a38'/%3E%3Crect x='2' y='13' width='12' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='27' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='20' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='21' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='26' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='27' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='28' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='20' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='22' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='26' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='28' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='4' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='30' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='21' y='5' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='22' y='5' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='26' y='5' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='27' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='29' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='21' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='22' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='26' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='27' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='29' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='7' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='23' y='7' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='25' y='7' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='28' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='20' y='8' width='8' height='1' fill='%23e9a55c'/%3E%3Crect x='28' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='9' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='22' y='9' width='3' height='1' fill='%23fbe8c8'/%3E%3Crect x='25' y='9' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='29' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='31' y='9' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='18' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='10' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='22' y='10' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='26' y='10' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='30' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='31' y='10' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='18' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='11' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='22' y='11' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='26' y='11' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='30' y='11' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='31' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='18' y='12' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='19' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='21' y='12' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='27' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='29' y='12' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='30' y='12' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='18' y='13' width='12' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='43' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='36' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='37' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='42' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='43' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='44' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='36' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='38' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='42' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='44' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='4' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='46' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='5' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='46' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='37' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='38' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='42' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='43' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='45' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='7' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='39' y='7' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='41' y='7' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='44' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='36' y='8' width='8' height='1' fill='%23e9a55c'/%3E%3Crect x='44' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='9' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='38' y='9' width='3' height='1' fill='%23fbe8c8'/%3E%3Crect x='41' y='9' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='45' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='10' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='38' y='10' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='42' y='10' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='46' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='34' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='11' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='38' y='11' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='42' y='11' width='5' height='1' fill='%23e9a55c'/%3E%3Crect x='47' y='11' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='34' y='12' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='35' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='37' y='12' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='43' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='45' y='12' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='46' y='12' width='2' height='1' fill='%23c27a38'/%3E%3Crect x='34' y='13' width='12' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='59' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='52' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='53' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='58' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='59' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='60' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='52' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='54' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='58' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='60' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='50' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='4' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='62' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='50' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='5' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='62' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='50' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='53' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='54' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='58' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='59' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='61' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='48' y='7' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='50' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='7' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='55' y='7' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='57' y='7' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='60' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='49' y='8' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='51' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='52' y='8' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='55' y='8' width='2' height='1' fill='%23b04a55'/%3E%3Crect x='57' y='8' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='60' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='49' y='9' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='50' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='9' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='54' y='9' width='3' height='1' fill='%23fbe8c8'/%3E%3Crect x='57' y='9' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='61' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='50' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='10' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='54' y='10' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='58' y='10' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='62' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='50' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='11' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='54' y='11' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='58' y='11' width='5' height='1' fill='%23e9a55c'/%3E%3Crect x='63' y='11' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='50' y='12' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='51' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='53' y='12' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='59' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='61' y='12' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='62' y='12' width='2' height='1' fill='%23c27a38'/%3E%3Crect x='50' y='13' width='12' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='75' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='68' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='69' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='74' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='75' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='76' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='68' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='70' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='74' y='3' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='76' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='66' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='4' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='78' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='66' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='5' width='11' height='1' fill='%23e9a55c'/%3E%3Crect x='78' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='66' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='69' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='70' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='74' y='6' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='75' y='6' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='77' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='66' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='7' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='71' y='7' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='73' y='7' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='76' y='7' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='78' y='7' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='67' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='68' y='8' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='71' y='8' width='2' height='1' fill='%23b04a55'/%3E%3Crect x='73' y='8' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='76' y='8' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='78' y='8' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='66' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='9' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='70' y='9' width='3' height='1' fill='%23fbe8c8'/%3E%3Crect x='73' y='9' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='77' y='9' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='78' y='9' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='66' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='10' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='70' y='10' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='74' y='10' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='78' y='10' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='66' y='11' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='11' width='3' height='1' fill='%23e9a55c'/%3E%3Crect x='70' y='11' width='4' height='1' fill='%23fbe8c8'/%3E%3Crect x='74' y='11' width='5' height='1' fill='%23e9a55c'/%3E%3Crect x='79' y='11' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='66' y='12' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='67' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='69' y='12' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='75' y='12' width='2' height='1' fill='%23fbe8c8'/%3E%3Crect x='77' y='12' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='78' y='12' width='2' height='1' fill='%23c27a38'/%3E%3Crect x='66' y='13' width='12' height='1' fill='%233a2a22'/%3E%3C/svg%3E");
   --cat-sleep:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8' shape-rendering='crispEdges'%3E%3Crect x='1' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='5' y='1' width='2' height='1' fill='%233a2a22'/%3E%3Crect x='1' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='3' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='5' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='6' y='2' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='7' y='2' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='1' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='3' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='8' y='3' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='10' y='3' width='4' height='1' fill='%233a2a22'/%3E%3Crect x='1' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='4' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='3' y='4' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='4' y='4' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='6' y='4' width='1' height='1' fill='%232b1d18'/%3E%3Crect x='7' y='4' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='8' y='4' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='9' y='4' width='7' height='1' fill='%23e9a55c'/%3E%3Crect x='1' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='4' y='5' width='2' height='1' fill='%23f08fa0'/%3E%3Crect x='6' y='5' width='2' height='1' fill='%23e9a55c'/%3E%3Crect x='8' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='9' y='5' width='6' height='1' fill='%23e9a55c'/%3E%3Crect x='15' y='5' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='2' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='3' y='6' width='5' height='1' fill='%23fbe8c8'/%3E%3Crect x='8' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='9' y='6' width='4' height='1' fill='%23e9a55c'/%3E%3Crect x='13' y='6' width='1' height='1' fill='%23c27a38'/%3E%3Crect x='14' y='6' width='1' height='1' fill='%23e9a55c'/%3E%3Crect x='15' y='6' width='1' height='1' fill='%233a2a22'/%3E%3Crect x='4' y='7' width='12' height='1' fill='%233a2a22'/%3E%3C/svg%3E");
   --pine:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 14' shape-rendering='crispEdges'%3E%3Crect x='5' y='0' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='6' y='0' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='1' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='1' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='6' y='1' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='7' y='1' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='5' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='6' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='7' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='8' y='2' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='3' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='3' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='6' y='3' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='7' y='3' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='5' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='6' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='7' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='8' y='4' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='2' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='4' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='6' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='7' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='8' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='9' y='5' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='5' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='6' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='7' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='8' y='6' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='2' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='4' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='6' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='7' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='8' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='9' y='7' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='1' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='2' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='3' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='4' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='5' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='6' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='7' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='8' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='9' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='10' y='8' width='1' height='1' fill='%234f8a5c'/%3E%3Crect x='0' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='1' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='2' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='3' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='4' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='6' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='7' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='8' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='9' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='10' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='11' y='9' width='1' height='1' fill='%233b6e49'/%3E%3Crect x='5' y='10' width='1' height='1' fill='%237a5232'/%3E%3Crect x='6' y='10' width='1' height='1' fill='%237a5232'/%3E%3Crect x='5' y='11' width='1' height='1' fill='%237a5232'/%3E%3Crect x='6' y='11' width='1' height='1' fill='%237a5232'/%3E%3Crect x='5' y='12' width='1' height='1' fill='%237a5232'/%3E%3Crect x='6' y='12' width='1' height='1' fill='%237a5232'/%3E%3C/svg%3E");
 }
 
-
 :root {
+    --font: "Nunito", "Segoe UI", system-ui, sans-serif;
     --text: #23342b; --muted: #55695c;
     --primary: #357a52; --primary-hover: #2b6844; --primary-soft: rgba(53,122,82,.18);
     --danger: #c0443c; --danger-soft: rgba(192,68,60,.16);
@@ -19,7 +19,6 @@
     --shadow: inset 0 1px 1px var(--hi), inset 0 -10px 18px -10px rgba(255,255,255,.35), 0 10px 30px rgba(30,60,40,.14);
     --shadow-lg: inset 0 1px 1px var(--hi), 0 24px 60px rgba(30,60,40,.28);
     --blur: 18px; --radius: 18px;
-    --pixel: "Pixelify Sans", "Press Start 2P", monospace;
     --fly: .25;
     color-scheme: light;
 }
@@ -45,7 +44,8 @@
 
 html, body { width: 100%; height: 100%; }
 body {
-    font-family: "Nunito", "Segoe UI", system-ui, sans-serif;
+    font-family: var(--font);
+    font-variant-numeric: tabular-nums;   /* clear, evenly spaced digits everywhere */
     color: var(--text);
     line-height: 1.45;
     min-height: 100vh;
@@ -54,7 +54,7 @@ body {
 }
 [data-theme="dark"] body { background: linear-gradient(160deg, #0d1f1b, #1b3b33 55%, #3a2f4a); }
 
-button, input, select, textarea { font-family: inherit; }
+button, input, select, textarea { font-family: inherit; font-variant-numeric: inherit; }
 button {
     border: none; cursor: pointer; font-size: 13px; font-weight: 700;
     border-radius: 14px; padding: 10px 16px; color: inherit;
@@ -65,7 +65,7 @@ button:active { transform: scale(.95); }
 :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .muted { color: var(--muted); font-size: 13px; }
 kbd {
-    font: inherit; font-size: 11px; background: var(--surface-2);
+    font: inherit; font-size: 11px; font-weight: 700; background: var(--surface-2);
     border: 1px solid var(--glass-border); border-radius: 5px; padding: 1px 6px;
 }
 .app { display: flex; width: 100%; min-height: 100vh; position: relative; z-index: 2; }
@@ -93,6 +93,21 @@ kbd {
     50% { transform: translate(26px, -34px); opacity: calc(var(--fly) * .4); }
     80% { transform: translate(-14px, -60px); opacity: var(--fly); }
 }
+
+/* Walking pixel cat: strolls along the bottom of the page */
+.walker {
+    position: fixed; left: 0; right: 0; bottom: 10px; height: 56px;
+    z-index: 1; pointer-events: none; overflow: hidden;
+}
+.walker-cat { position: absolute; left: 0; bottom: 0; animation: walkAcross 42s linear infinite; }
+.walker-sprite {
+    width: 56px; height: 56px; image-rendering: pixelated;
+    background: var(--cat-sheet) 0 0 / 500% 100% no-repeat;
+    animation: catWalk .8s steps(4) infinite, catBob .4s steps(2) infinite;
+}
+@keyframes walkAcross { from { transform: translateX(-80px); } to { transform: translateX(100vw); } }
+@keyframes catWalk { from { background-position: 0 0; } to { background-position: 100% 0; } }
+@keyframes catBob { 50% { transform: translateY(-3px); } }
 
 /* ---------- Liquid glass ---------- */
 .sidebar, .stat-card, .tasks-section, .quick-add, .modal-content, .celebration-card,
@@ -136,7 +151,7 @@ kbd {
 }
 .sidebar > * { flex-shrink: 0; }      /* nothing gets squashed */
 
-.brand { display: flex; align-items: center; gap: 10px; font: 700 22px var(--pixel); padding: 0 6px 18px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 800 22px var(--font); padding: 0 6px 18px; }
 .brand-mark {
     width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; color: #fff;
     background: linear-gradient(135deg, #7fc08e, #357a52); box-shadow: inset 0 1px 1px rgba(255,255,255,.7), 0 4px 10px rgba(53,122,82,.4);
@@ -151,7 +166,7 @@ kbd {
 .nav-icon { width: 18px; text-align: center; font-size: 14px; }
 .nav-label, .list-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .count {
-    font: 600 12px var(--pixel); background: var(--surface-2); color: var(--muted);
+    font: 800 12px var(--font); background: var(--surface-2); color: var(--muted);
     border-radius: 8px; padding: 1px 8px; min-width: 26px; text-align: center;
 }
 .active .count { background: var(--primary); color: #fff; }
@@ -164,7 +179,7 @@ kbd {
 }
 .side-heading {
     display: flex; justify-content: space-between; align-items: center; padding: 0 6px 0 12px;
-    font: 600 14px var(--pixel); letter-spacing: .06em; color: var(--muted);
+    font: 800 12px var(--font); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
 }
 .list-form { margin-bottom: 4px; }
 .list-form input { padding: 9px 12px; }
@@ -175,7 +190,7 @@ kbd {
 }
 .list-nav li { position: relative; }
 .list-nav .list-item { padding-right: 38px; }
-.dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
+.dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
 .list-del {
     position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
     width: 26px; height: 26px; padding: 0; background: transparent; color: var(--muted); font-size: 16px; opacity: 0;
@@ -197,7 +212,7 @@ kbd {
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
 .topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .topbar h1 {
-    font: 700 34px/1.15 var(--pixel); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: 800 32px/1.15 var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     text-shadow: 0 2px 0 rgba(255,255,255,.45);
 }
 [data-theme="dark"] .topbar h1 { text-shadow: 0 2px 0 rgba(0,0,0,.35); }
@@ -206,16 +221,16 @@ kbd {
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
 .stat-card { border-radius: var(--radius); padding: 16px 18px; }
 .stat-card p { color: var(--muted); font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-.stat-card h2 { font: 700 32px var(--pixel); }
+.stat-card h2 { font: 800 32px/1.2 var(--font); }
 
 .progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .progress {
-    flex: 1; height: 12px; border-radius: 4px; overflow: hidden; padding: 2px;
+    flex: 1; height: 12px; border-radius: 6px; overflow: hidden; padding: 2px;
     background: var(--surface-2); border: 1px solid var(--glass-border);
 }
 .progress-bar {
-    height: 100%; width: 0; transition: width .5s steps(16);
-    background: repeating-linear-gradient(90deg, #6fbf84 0 6px, #4f9e69 6px 8px);
+    height: 100%; width: 0; border-radius: 4px; transition: width .5s ease;
+    background: linear-gradient(90deg, #6fbf84, #4f9e69);
 }
 
 /* Inputs */
@@ -284,7 +299,7 @@ select option { background: #f4f1e6; color: #23342b; }
 
 /* Empty / error / loading */
 .state { text-align: center; padding: 30px 16px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.state h3 { font: 700 22px var(--pixel); }
+.state h3 { font: 800 21px var(--font); }
 .state p { color: var(--muted); font-size: 14px; max-width: 360px; }
 .state .primary-btn, .state .secondary-btn { margin-top: 12px; }
 .skeleton {
@@ -298,7 +313,7 @@ select option { background: #f4f1e6; color: #23342b; }
 .modal-content { width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; padding: 24px; border-radius: 28px; --blur: 28px; animation: pop .22s cubic-bezier(.3,1.5,.5,1); }
 @keyframes pop { from { opacity: 0; transform: scale(.94) translateY(10px); } to { opacity: 1; transform: none; } }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.modal-header h2 { font: 700 26px var(--pixel); }
+.modal-header h2 { font: 800 24px var(--font); }
 #taskForm { display: flex; flex-direction: column; gap: 6px; }
 #taskForm label { font-size: 13px; font-weight: 800; margin-top: 8px; }
 #taskForm .optional { font-weight: 500; color: var(--muted); font-size: 12px; margin-left: 4px; }
@@ -311,7 +326,7 @@ select option { background: #f4f1e6; color: #23342b; }
 .task-body[data-action="view"]:hover .task-title { color: var(--primary); }
 
 .details { display: flex; flex-direction: column; gap: 4px; }
-.detail-title { font: 700 24px/1.25 var(--pixel); word-break: break-word; }
+.detail-title { font: 800 22px/1.25 var(--font); word-break: break-word; }
 .detail-title.done { text-decoration: line-through; color: var(--muted); }
 .detail-row {
     display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: start;
@@ -340,7 +355,7 @@ select option { background: #f4f1e6; color: #23342b; }
 .toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 .toast-action { background: transparent; color: var(--primary); padding: 2px 8px; font-weight: 800; }
 
-/* ---------- Sleeping / celebrating cats (drawn by script.js, restyled here) ---------- */
+/* ---------- Sleeping / celebrating cats (pixel art from the image variables above) ---------- */
 .state-cat, .celebration-cat { image-rendering: pixelated; position: relative; margin: 0 auto; }
 .state-cat svg, .celebration-cat svg { display: none; }
 .state-cat {
@@ -351,7 +366,7 @@ select option { background: #f4f1e6; color: #23342b; }
 @keyframes breathe { 50% { transform: scaleY(1.05); } }
 .state-cat::after {
     content: "z  Z  z"; position: absolute; left: 62%; top: -14px; white-space: pre;
-    font: 700 16px var(--pixel); color: var(--primary); animation: floatZ 3s steps(6) infinite;
+    font: 800 16px var(--font); color: var(--primary); animation: floatZ 3s steps(6) infinite;
 }
 @keyframes floatZ { 0% { opacity: 0; transform: translate(0, 8px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -16px); } }
 
@@ -365,7 +380,7 @@ select option { background: #f4f1e6; color: #23342b; }
 }
 @keyframes cheer { 0% { background-position: 75% 0; } 50% { background-position: 100% 0; } }
 @keyframes hop { to { transform: translateY(-16px); } }
-.celebration-card h3 { font: 700 26px var(--pixel); margin-top: 4px; }
+.celebration-card h3 { font: 800 24px var(--font); margin-top: 4px; }
 .celebration-card p { color: var(--muted); font-size: 14px; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @keyframes cardPop {
     0% { opacity: 0; transform: scale(.6) translateY(30px); } 12% { opacity: 1; transform: scale(1.06); }
@@ -375,8 +390,84 @@ select option { background: #f4f1e6; color: #23342b; }
 .confetti span { position: absolute; top: -20px; width: 9px; height: 14px; border-radius: 0; opacity: 0; animation: confettiFall linear forwards; }
 @keyframes confettiFall { 0% { opacity: 1; transform: translateY(0) rotate(0); } 100% { opacity: 0; transform: translateY(105vh) rotate(720deg); } }
 
+/* ---------- Focus dock (floating timer, bottom right) ---------- */
+.focus-dock {
+    position: fixed; right: 20px; bottom: 20px; z-index: 1200;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+}
+.dock-pill, .focus-panel {
+    background: linear-gradient(135deg, var(--glass), var(--glass-2));
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(1.8);
+    backdrop-filter: blur(var(--blur)) saturate(1.8);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow);
+}
+.dock-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 18px 9px 14px; border-radius: 999px; color: var(--text);
+}
+.dock-paw { display: inline-flex; width: 22px; height: 22px; color: var(--primary); flex-shrink: 0; }
+.dock-paw svg { width: 100%; height: 100%; }
+.dock-time { font: 800 16px var(--font); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dock-label {
+    font-size: 13px; font-weight: 700; color: var(--muted);
+    max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.focus-dock[data-state="running"] .dock-pill { border-color: var(--primary); }
+.focus-dock[data-state="running"] .dock-time { color: var(--primary); }
+.focus-dock[data-state="running"] .dock-paw { animation: pawPulse 1.2s ease-in-out infinite; }
+.focus-dock[data-state="paused"] .dock-time { color: var(--warn); }
+@keyframes pawPulse { 50% { transform: scale(1.18) rotate(-8deg); } }
+
+.focus-panel {
+    width: min(360px, calc(100vw - 24px)); max-height: calc(100vh - 120px); overflow-y: auto;
+    padding: 16px; border-radius: 24px; --blur: 28px;
+    animation: pop .22s cubic-bezier(.3,1.5,.5,1);
+}
+.focus-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.focus-head h2 { font: 800 18px var(--font); }
+.focus-head .muted { font-size: 12px; margin-top: 2px; }
+.focus-head-actions { display: flex; gap: 2px; flex-shrink: 0; }
+
+.focus-main { display: flex; align-items: center; gap: 12px; margin: 10px 0 12px; }
+.focus-cat-wrap { display: flex; flex-direction: column; align-items: center; width: 92px; flex-shrink: 0; }
+.focus-cat {
+    width: 72px; height: 72px; image-rendering: pixelated;
+    background: var(--cat-sheet) 0 0 / 500% 100% no-repeat;
+}
+.focus-cat.is-running { animation: focusCatWalk .65s steps(4) infinite, focusCatBob .65s steps(2) infinite; }
+.focus-cat.is-resting { animation: focusCatBreathe 2s steps(2) infinite; background-position: 0 0; }
+.focus-cat-caption { color: var(--muted); font: 700 11px var(--font); text-align: center; }
+@keyframes focusCatWalk { from { background-position: 0 0; } to { background-position: 100% 0; } }
+@keyframes focusCatBob { 50% { transform: translateY(-4px); } }
+@keyframes focusCatBreathe { 50% { transform: scaleY(1.04); } }
+
+.focus-readout { flex: 1; min-width: 0; text-align: center; }
+.focus-clock { font: 800 44px/1.1 var(--font); letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.focus-status { color: var(--muted); font-size: 12px; }
+
+.focus-modes { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.focus-mode { padding: 6px 11px; border-radius: 999px; background: var(--surface-2); color: var(--muted); font-size: 12px; }
+.focus-mode.active { background: var(--primary-soft); color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+.focus-mode:disabled { cursor: default; opacity: .8; }
+
+.focus-task-label { display: block; margin: 14px 0 5px; font-size: 12px; font-weight: 800; }
+.focus-task-select { width: 100%; }
+.focus-settings { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin: 12px 0 0; color: var(--muted); font-size: 11px; font-weight: 700; }
+.focus-settings label { display: flex; align-items: center; gap: 5px; }
+.focus-settings input { width: 50px; padding: 5px; text-align: center; }
+.focus-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.focus-actions button { flex: 1; min-width: 90px; }
+.focus-note { margin-top: 10px; color: var(--muted); font-size: 11px; text-align: center; }
+
+.focus-history { list-style: none; width: 100%; margin-top: 8px; }
+.focus-history li { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; padding: 5px 0; border-top: 1px solid var(--border); font-size: 11px; }
+.focus-history em { color: var(--muted); font-style: normal; }
+
+/* ---------- Motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {
-    .state-cat, .celebration-cat, .fly, .task, .skeleton, .state-cat::after { animation: none; }
+    .state-cat, .fly, .task, .skeleton, .state-cat::after,
+    .walker-cat, .walker-sprite, .dock-paw, .focus-cat, .focus-panel { animation: none; }
     .state-cat::after { opacity: 1; }
     .confetti { display: none; }
 }
@@ -397,4 +488,7 @@ select option { background: #f4f1e6; color: #23342b; }
     .task-actions { width: 100%; justify-content: flex-end; padding-left: 36px; }
     .row { grid-template-columns: 1fr; }
     #addTaskBtn { padding: 10px 12px; }
+    .focus-dock { right: 12px; bottom: 12px; left: 12px; align-items: flex-end; }
+    .focus-panel { width: 100%; }
+    .dock-label { max-width: 100px; }
 }
