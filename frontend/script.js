@@ -9,6 +9,7 @@ const UNDO_MS = 5000;
 // Lists are stored in the browser and each task's `category` field holds its list name,
 // so no backend changes are needed.
 let allTasks = [];
+let dashboardTasks = [];
 let storedLists = loadLists();
 let view = loadView();
 let editingTaskId = null;
@@ -57,7 +58,7 @@ function saveLists() {
 function loadView() {
     try {
         const parsed = JSON.parse(safeGet(VIEW_KEY));
-        if (parsed && ["all", "completed", "list"].includes(parsed.type)) return parsed;
+        if (parsed && ["all", "completed", "list", "page"].includes(parsed.type)) return parsed;
     } catch { /* ignore */ }
     return { type: "all" };
 }
@@ -402,6 +403,17 @@ async function loadTasks(showSkeleton = true) {
     loading = false;
     render();
     populateFocusTasks();
+    refreshOverview();
+}
+
+async function refreshOverview() {
+    try {
+        const result = await request(`${API_URL}?limit=100&sortBy=updatedAt&order=desc`);
+        dashboardTasks = result.data || [];
+        renderOverview();
+    } catch (error) {
+        console.warn("Overview data could not be refreshed:", error.message);
+    }
 }
 
 async function setStatus(id, status) {
@@ -416,6 +428,7 @@ async function setStatus(id, status) {
 
     try {
         await request(`${API_URL}/${id}`, "PUT", { status });
+        refreshOverview();
     } catch (error) {
         console.error("Status update error:", error);
         task.status = previous;
@@ -444,6 +457,7 @@ function deleteTask(id) {
         pendingDeletes.delete(id);
         try {
             await request(`${API_URL}/${id}`, "DELETE");
+            refreshOverview();
         } catch (error) {
             console.error("Delete error:", error);
             allTasks.push(task);
@@ -524,6 +538,9 @@ function renderSidebar() {
     $("allCount").textContent = open;
     $("doneCount").textContent = done;
     $("allLink").classList.toggle("active", view.type === "all");
+    $("dashboardLink").classList.toggle("active", view.type === "page" && view.page === "dashboard");
+    $("pomodoroLink").classList.toggle("active", view.type === "page" && view.page === "pomodoro");
+    $("analyticsLink").classList.toggle("active", view.type === "page" && view.page === "analytics");
     $("completedLink").classList.toggle("active", view.type === "completed");
 
     const lists = getLists();
@@ -546,24 +563,34 @@ function renderSidebar() {
 }
 
 function renderHeader() {
-    let title = "All Tasks";
+    let title = "My Tasks";
     if (view.type === "completed") title = "Completed";
     if (view.type === "list") title = view.name;
+    if (view.type === "page") title = ({ dashboard: "Dashboard", analytics: "Analytics", pomodoro: "Pomodoro" })[view.page] || "TaskFlow";
 
     $("pageTitle").textContent = title;
     document.title = `${title} | TaskFlow`;
 
     const scope = view.type === "list" ? tasksInList(view.name) : allTasks;
     const open = scope.filter(t => t.status !== "Completed").length;
-    $("pageSubtitle").textContent = view.type === "completed"
-        ? `${scope.filter(t => t.status === "Completed").length} finished tasks`
-        : `${open} open \u00B7 ${scope.length} total`;
+    $("pageSubtitle").textContent = view.type === "page"
+        ? ({ dashboard: "Stay productive, one task at a time!", analytics: "Your productivity, visualised.", pomodoro: "Make space for focused work." })[view.page]
+        : view.type === "completed"
+            ? `${scope.filter(t => t.status === "Completed").length} finished tasks`
+            : `${open} open · ${scope.length} total`;
 
-    $("quickForm").hidden = view.type === "completed";
+    const taskPage = view.type !== "page";
+    $("quickForm").hidden = !taskPage || view.type === "completed";
+    $("addTaskBtn").hidden = !taskPage;
     $("quickAdd").placeholder = `Add a task to ${currentList()} and press Enter`;
 }
 
 function renderStats() {
+    if (view.type === "page") {
+        $("stats").hidden = true;
+        $("progressWrap").hidden = true;
+        return;
+    }
     const scope = view.type === "list" ? tasksInList(view.name) : allTasks;
     const count = status => scope.filter(t => t.status === status).length;
     const completed = count("Completed");
@@ -635,6 +662,7 @@ function taskHTML(task) {
 }
 
 function renderTasks() {
+    if (view.type === "page") return;
     const container = $("taskContainer");
     const toolbar = $("toolbar");
     const count = $("taskCount");
@@ -715,6 +743,61 @@ function render() {
     renderHeader();
     renderStats();
     renderTasks();
+    renderPages();
+}
+
+/* ---------------- Dashboard and analytics ---------------- */
+
+function renderOverview() {
+    const items = dashboardTasks;
+    const total = items.length;
+    const completed = items.filter(t => t.status === "Completed").length;
+    const progress = items.filter(t => t.status === "In Progress").length;
+    const high = items.filter(t => t.priority === "High").length;
+    const open = total - completed;
+    const rate = total ? Math.round(completed / total * 100) : 0;
+
+    $("dashTotal").textContent = total;
+    $("dashProgress").textContent = progress;
+    $("dashCompleted").textContent = completed;
+    $("dashHigh").textContent = high;
+    $("analyticsRate").textContent = `${rate}%`;
+    $("analyticsCompleted").textContent = completed;
+    $("analyticsOpen").textContent = open;
+    $("analyticsHigh").textContent = high;
+    $("dashboardFocusTime").textContent = $("dockClock")?.textContent || "25:00";
+
+    const recent = items.slice(0, 5);
+    $("dashboardRecent").innerHTML = recent.length ? recent.map(task => `
+        <button class="dashboard-task-row" type="button" data-dashboard-task="${escapeHTML(task._id)}">
+            <span class="dashboard-task-check ${task.status === "Completed" ? "is-done" : ""}">${task.status === "Completed" ? "✓" : ""}</span>
+            <span class="dashboard-task-title">${escapeHTML(task.title)}</span>
+            <span class="badge ${priorityClass(task.priority)}">${escapeHTML(task.priority)}</span>
+            <span class="dashboard-task-date">${escapeHTML(dueKey(task) ? shortDate(dueKey(task)) : "No date")}</span>
+        </button>`).join("") : stateHTML({ title: "No tasks yet", text: "Add your first task to see it here.", cat: false });
+
+    const statusCounts = ["Pending", "In Progress", "Completed"].map(name => [name, items.filter(t => t.status === name).length]);
+    const priorityCounts = ["High", "Medium", "Low"].map(name => [name, items.filter(t => t.priority === name).length]);
+    const categories = [...new Set(items.map(t => t.category || "Uncategorised"))]
+        .map(name => [name, items.filter(t => (t.category || "Uncategorised") === name).length])
+        .sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+    const bars = (entries, max) => entries.map(([name, value]) => `
+        <div class="bar-row"><div class="bar-label"><span>${escapeHTML(name)}</span><strong>${value}</strong></div>
+        <div class="bar-track"><span style="width:${max ? value / max * 100 : 0}%"></span></div></div>`).join("") || '<p class="muted">No data available yet.</p>';
+
+    $("statusChart").innerHTML = bars(statusCounts, Math.max(1, ...statusCounts.map(x => x[1])));
+    $("priorityChart").innerHTML = bars(priorityCounts, Math.max(1, ...priorityCounts.map(x => x[1])));
+    $("categoryChart").innerHTML = bars(categories, Math.max(1, ...categories.map(x => x[1])));
+}
+
+function renderPages() {
+    const page = view.type === "page" ? view.page : "tasks";
+    $("dashboardPage").hidden = page !== "dashboard";
+    $("analyticsPage").hidden = page !== "analytics";
+    $("pomodoroPage").hidden = page !== "pomodoro";
+    $("tasksPage").hidden = page === "dashboard" || page === "analytics" || page === "pomodoro";
+    if (page === "dashboard" || page === "analytics") renderOverview();
 }
 
 /* ---------------- Modal ---------------- */
@@ -959,6 +1042,7 @@ function clockText(seconds) {
 function renderFocusTimer() {
     const remaining = focusRemainingSeconds();
     $("focusClock").textContent = clockText(remaining);
+    $("dashboardFocusTime").textContent = clockText(remaining);
     const running = focusSession?.status === "running";
     const paused = focusSession?.status === "paused";
     const modeNames = { focus: "Focus time", shortBreak: "Short break", longBreak: "Long break" };
@@ -1253,6 +1337,9 @@ $("listNav").addEventListener("click", event => {
     if (item) setView({ type: "list", name: item.dataset.list });
 });
 
+$("dashboardLink").addEventListener("click", () => setView({ type: "page", page: "dashboard" }));
+$("pomodoroLink").addEventListener("click", () => setView({ type: "page", page: "pomodoro" }));
+$("analyticsLink").addEventListener("click", () => setView({ type: "page", page: "analytics" }));
 $("allLink").addEventListener("click", () => setView({ type: "all" }));
 $("completedLink").addEventListener("click", () => setView({ type: "completed" }));
 
@@ -1290,6 +1377,15 @@ $("searchInput").addEventListener("input", () => {
     $(id).addEventListener("change", () => loadTasks(false))
 );
 $("clearFiltersBtn").addEventListener("click", clearFilters);
+
+$("dashboardAddTask").addEventListener("click", () => openAddModal());
+$("dashboardViewAll").addEventListener("click", () => setView({ type: "all" }));
+$("dashboardOpenTimer").addEventListener("click", () => setDockOpen(true));
+$("pomodoroLaunch").addEventListener("click", () => setDockOpen(true));
+$("dashboardRecent").addEventListener("click", event => {
+    const row = event.target.closest("[data-dashboard-task]");
+    if (row) openDetails(row.dataset.dashboardTask);
+});
 
 $("addTaskBtn").addEventListener("click", () => openAddModal());
 $("closeModal").addEventListener("click", closeModal);
